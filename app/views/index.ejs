@@ -1,0 +1,22 @@
+<%- include("partials/start") %>
+</head>
+
+<body>
+	<%- include("partials/nav", { isLoggedIn }) %>
+
+	<main class="container">
+		<%- include("partials/flash_msg", { messages }) %>
+
+		<form class="input-group mt-1 mb-4" action="/search" method="get">
+			<input type="search" name="name" class="form-control rounded-0" aria-label="Search" aria-describedby="search-addon" />
+			<button type="submit" class="btn btn-outline-primary rounded-0" data-mdb-ripple-init>search</button>
+		</form>
+
+		<div id="cardContainer" class="row row-cols-1 row-cols-md-3 g-4"></div>
+	</main>
+
+	<%- include("partials/footer") %>
+
+	<script src="/scripts/product_list.js" items="<%= JSON.stringify(featuredItems) %>"></script>
+
+	<%- include("partials/end") %>

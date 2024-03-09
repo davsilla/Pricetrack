@@ -1,0 +1,9 @@
+<% if (messages) {%>
+	<% messages.forEach(msg => { %>
+		<% if (msg.error) { %>
+			<div class="bd-callout bd-callout-danger"><%= msg.error %></div>	
+		<% } else { %>
+			<div class="bd-callout bd-callout-info"><%= msg.success %></div>	
+		<% } %>
+	<% }) %>
+<% } %>

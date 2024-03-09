@@ -1,0 +1,101 @@
+<%- include("../partials/start") %>
+</head>
+
+<body>
+	<%- include("../partials/nav", { isLoggedIn: true }) %>
+
+	<main class="container">
+		<p class="text-center mb-0">Add an item</p>
+		<%- include("../partials/flash_msg", { messages }) %>
+		<form action="" method="post" id="addItemForm">
+			<!-- <div class="border border-1 px-3 pt-3 pb-4 mb-3 itemStoreData"> -->
+			<div class="mb-3">
+				<!-- item url -->
+				<label for="urlInput" class="form-label">url</label>
+				<input type="url" name="url" class="form-control rounded-0" id="urlInput" placeholder="https://www.amazon.com/Cordoba-C5-Iberia-Classical-Guitar/dp/B007SQZJ6O/..." required>
+			</div>
+			<!-- item xpath -->
+			<div class="mb-3">
+				<label for="itemXpathInput" class="form-label">price xpath</label>
+				<input type="text" name="xpath" class="form-control rounded-0" id="itemXpathInput" placeholder="/html/body/div[1]/div/div[8]/div[3]/div[4]/div[14]/div/div/div[1]/div/div[3]/div[1]/span[3]" required>
+			</div>
+			<div class="row store-info">
+				<!-- store id -->
+				<div class="col mb-3 d-none">
+					<label for="storeIdInput" class="form-label">store id</label>
+					<input type="text" name="store_id" class="form-control rounded-0 store-info-id" id="storeIdInput" placeholder="a2717f42-56d9-41e8-bb2a-40e2f339578d">
+				</div>
+				<!-- store name -->
+				<div class="col mb-3">
+					<label for="storeNameInput" class="form-label">store name</label>
+					<input name="store_name" class="form-control store-info-name" list="storeNameOptions" id="storeNameInput" placeholder="Type to search..." required>
+					<datalist id="storeNameOptions">
+						<% stores.forEach(store => { %>
+							<option value="<%= store.name %>">
+						<% }) %>
+					</datalist>
+				</div>
+				<!-- store url -->
+				<div class="col-sm-8 mb-3">
+					<label for="storeUrlInput" class="form-label">store url <span class="text-secondary">(optional)</span></label>
+					<input type="text" name="store_url" class="form-control rounded-0 store-info-url" id="storeUrlInput" placeholder="https://www.amazon.com">
+				</div>
+			</div>
+			<!-- </div> -->
+			<div class="mb-3" id="addItemStoreDataContainer">
+				<button class="btn btn-secondary rounded-0" id="addItemStoreData" style="width: 100%;">
+					<i class="bi bi-plus-lg"></i>
+				</button>
+			</div>
+			<div class="mb-3">
+				<!-- item name -->
+				<label for="itemNameInput" class="form-label">name</label>
+				<input type="text" name="name" class="form-control rounded-0" id="itemNameInput" placeholder="Cordoba C5 CD Classical Acoustic Nylon String Guitar, Iberia Series" required>
+			</div>
+			<div class="mb-3">
+				<!-- item image url -->
+				<label for="imageUrlInput" class="form-label">image url</label>
+				<input type="url" name="image" class="form-control rounded-0" id="imageUrlInput" placeholder="https://m.media-amazon.com/images/I/71AtOKnmN5L._AC_SL1500_.jpg">
+			</div>
+			<div class="mb-3">
+				<!-- item categories -->
+				<label for="categoriesInput" class="form-label">relevant categories</label>
+				<input type="text" name="categories" class="form-control rounded-0" id="categoriesInput" placeholder="Musical Instruments, Guitars, Classical & Nylon-String Guitars" required>
+			</div>
+			<div class="row">
+				<!-- item brand -->
+				<div class="col mb-3">
+					<label for="brandInput" class="form-label">brand</label>
+					<input type="text" name="brand" class="form-control rounded-0" id="brandInput" placeholder="Cordoba" required>
+				</div>
+				<!-- item model no -->
+				<div class="col mb-3">
+					<label for="modelInput" class="form-label">model no.</label>
+					<input type="text" name="model" class="form-control rounded-0" id="modelInput" placeholder="C5" required>
+				</div>
+			</div>
+			<!-- item update freq -->
+			<p class="mb-2">update frequency</p>
+			<div class="row row-cols-3">
+				<div class="col form-floating mb-3">
+					<input type="number" name="days" class="form-control rounded-0" id="numOfDays" min="0" max="30" value="0">
+					<label for="numOfDays" class="form-label ms-2">days</label>
+				</div>
+				<div class="col form-floating mb-3">
+					<input type="number" name="hours" class="form-control rounded-0" id="numOfHours" min="0" max="23" value="0">
+					<label for="numOfHours" class="form-label ms-2">hours</label>
+				</div>
+				<div class="col form-floating mb-3">
+					<input type="number" name="minutes" class="form-control rounded-0" id="numOfMinutes" min="0" max="59" value="30">
+					<label for="numOfMinutes" class="form-label ms-2">minutes</label>
+				</div>
+			</div>
+			<button class="btn btn-success rounded-0" style="width: 100%;" type="submit">Add item</button>
+		</form>
+	</main>
+
+	<%- include("../partials/footer") %>
+
+	<script src="/scripts/validate_add.js" stores="<%= JSON.stringify(stores) %>"></script>
+
+	<%- include("../partials/end") %>

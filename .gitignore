@@ -1,0 +1,7 @@
+node_modules/
+.venv/
+__*__
+.vscode/
+.env
+.todo
+package-lock.json

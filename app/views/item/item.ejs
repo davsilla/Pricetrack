@@ -1,0 +1,81 @@
+<%- include("../partials/start") %>
+</head>
+
+<body>
+	<%- include("../partials/nav", { isLoggedIn }) %>
+
+	<main class="container">
+
+		<form class="input-group mb-4 mt-0" action="/search" method="get">
+			<input type="search" name="name" class="form-control rounded-0" aria-label="Search" aria-describedby="search-addon" />
+			<button type="submit" class="btn btn-outline-primary rounded-0" data-mdb-ripple-init>search</button>
+		</form>
+
+		<div class="card mb-3 rounded-0">
+			<div class="row g-0">
+				<div class="col-md-4 d-flex justify-content-center align-items-center">
+					<img src="<%= item.image_url %>" class="img-fluid rounded-start p-5" style="max-height: 350px;" alt="...">
+				</div>
+				<div class="col-md-8 bg-body-tertiary">
+					<div id="cardBody" class="card-body">
+						<h5 class="card-title"><%= item.name %></h5>
+						<p class="card-text"><%= item.brand %> | <%= item.model %></p>
+						<h4>
+							$<span id="itemPrice">--.--</span>
+							<span id="itemPriceChange" class="ms-2"><span>
+						</h4>
+						<a class="btn btn-warning rounded-0 my-2" href="/item/edit/<%= item.info_id %>">edit item</a>
+						<a id="itemStorePageLink" class="btn btn-primary rounded-0 my-2" target="_blank" href="">visit store page</a>
+						<p class="card-text"><small id="itemUpdateText" class="text-body-secondary">Last updated 3 mins ago</small></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<%- include("../partials/flash_msg", { messages }) %>
+
+		<div class="container">
+			<div class="row row-gap-3 column-gap-3">
+				<div class="col-md-4 p-3 border border-1">
+					<% if (isLoggedIn) { %>
+						<form id="priceTargetForm" action="" method="post">
+							<label for="priceTarget" class="form-label">Target price</label>
+							<input type="number" id="priceTarget" name="price_target" class="form-control rounded-0" aria-describedby="priceTargetHelpBlock" step="0.01" placeholder="1234.56">
+							<div id="priceTargetHelpBlock" class="form-text">
+								Get notified when the price of the product falls bellow your target price.
+							</div>
+							<button type="submit" class="btn btn-primary mt-3 rounded-0 px-4">Create price watch</button>
+						</form>
+					<% } else { %>
+						<h5>Want to get notified?</h5>
+						<p>You'll need to sign to set a price watch for this product.</p>
+						<a class="btn btn-primary rounded-0 px-4" href="/auth/login">sign in</a>
+					<% } %>
+				</div>
+				<div class="col">
+					<% if (item.list) { %>
+					<div class="row text-bg-dark" id="storePrices">
+						<div class="col col-md-3 py-1 fw-bold">Store</div>
+						<div class="col col-md-3 py-1 fw-bold">Price</div>
+						<div class="col-md-3 py-1 fw-bold d-none d-md-block">Min</div>
+						<div class="col-md-3 py-1 fw-bold d-none d-md-block">Max</div>
+					</div>
+					<% item.list.forEach((e, i) => { %>
+					<div class="row border border-1" id="storePrices">
+						<div class="col col-md-3 py-1"><%= e.store_name %></div>
+						<div class="col col-md-3 py-1">$<%= e.price ? (e.price / 100).toFixed(2) : "--.--" %></div>
+						<div class="col-md-3 py-1 d-none d-md-block">$<%= e.min_price ? (e.min_price / 100).toFixed(2) : "--.--" %></div>
+						<div class="col-md-3 py-1 d-none d-md-block">$<%= e.max_price ? (e.max_price / 100).toFixed(2) : "--.--" %></div>
+					</div>
+					<% }) %>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<%- include("../partials/footer") %>
+
+	<script src="/scripts/item_page.js" item="<%= JSON.stringify(item) %>"></script>
+
+	<%- include("../partials/end") %>
