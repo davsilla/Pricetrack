@@ -23,7 +23,7 @@ const authRouter = require("./routes/auth.route");
 const itemRouter = require("./routes/item.route");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3300;
 const isInProduction = process.env.NODE_ENV === "production"
 
 // view engine setup
