@@ -21,6 +21,7 @@ const debug = require("debug")("app:server");
 const mainRouter = require("./routes/main.route");
 const authRouter = require("./routes/auth.route");
 const itemRouter = require("./routes/item.route");
+const apiRouter = require("./routes/api.route");
 
 const app = express();
 const port = process.env.PORT || 3300;
@@ -91,6 +92,7 @@ passport.deserializeUser(async function (id, done) {
 app.use("/", mainRouter);
 app.use("/auth", authRouter);
 app.use("/item", itemRouter);
+app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
