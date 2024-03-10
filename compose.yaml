@@ -15,29 +15,63 @@ services:
       - 5432:5432
 
   adminer:
+    container_name: db_adminer
     image: adminer
     restart: always
     networks:
       - shared-network
     ports:
       - 8080:8080
-  
+
   app:
     container_name: app
     build: ./app/
-    depends_on:
-      - db
-    restart: always
     env_file:
       - ./app/.env
     networks:
       - shared-network
     ports:
       - 3300:3300
+    depends_on:
+      - db
+
+  browser:
+    container_name: browser
+    image: selenium/standalone-chrome:120.0
+    shm_size: 2g
+    volumes:
+      - browser_downloads:/home/seluser/Downloads
+    networks:
+      - shared-network
+    ports:
+      - 4444:4444
+      - 7900:7900
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:4444" ]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      start_interval: 5s
+
+  scanner:
+    container_name: scanner
+    build: ./scanner/
+    env_file:
+      - ./scanner/.env
+    networks:
+      - shared-network
+    depends_on:
+      browser:
+        condition: service_healthy
+      app:
+        condition: service_started
 
 volumes:
   db-data:
     name: "database-data"
+  browser_downloads:
+    name: "downloads"
 
 networks:
   shared-network:
