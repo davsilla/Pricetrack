@@ -11,17 +11,16 @@ Pricetrack is a containerized web scraper built to scan for price changes on any
 >📝 This application requires docker compose. 
 
 Set app environment varibles before running.
-> See the example file **.sample.env** to know which environment variables to set.
+> See **.sample.env** to know which environment variables to set.
+> Or rename .sample.env to .env in each project directory.
 
 To build and run the database, simply run:
-
 ```bash
 docker compose up
 ```
 
-In another terminal run:
+To visit the home page go to
+> http://localhost:3300
 
-```bash
-cd app/
-npm run dev
-```
+To see what is happening inside the container go to
+> http://localhost:7900/?autoconnect=1&resize=scale&password=secret
